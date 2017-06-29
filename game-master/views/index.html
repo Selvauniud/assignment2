@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Niro</title>
+	<link rel="shortcut icon" href="img/ship-icon.png" type="icon/png">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../css/normalize.css">
+	<link rel="stylesheet" href="../css/app.css">
+		<!--[if gte IE 9]>
+			<style type="text/css">
+				.gradient {
+				filter: none;
+				}
+			</style>
+	<![endif]-->
+</head>
+<body>
+	<header>
+		<div id="header-content">
+			<h1>
+				<span>Retro Express</span>
+<!--
+				<pre>
+			
+				</pre>
+-->
+			</h1>
+		</div>
+	</header>
+	<section id="game-wrapper">
+		<div id="game-display" class="game-display">
+		</div>
+		<div id="game-info">
+			<h2>CONTROLS</h2>
+			<div id="controls-list">
+				<p>(W/A/S/D) & (&larr;/&rarr;/&uarr;/&darr;) <span>Navigate Rex</span></p>
+				<p>(Shift) <span>Rotate 90&#176;</span></p>
+				<p>(1/2/3) <span>Change View</span></p>
+			</div>
+		</div>
+	</section>
+<!--	<script src="js/jquery-1.11.3.js"></script>-->
+	<script src="../js/three.js"></script>
+	<script src="../js/OrbitControls.js"></script>
+<!--	<script src="js/physijs/physi.js"></script>-->
+	<script src="../js/game.js"></script>
+</body>
+</html>
+
+
+<!-- adding shaders by Selvakumar -->
+
+<script id="fragment_shader" type="x-shader/x-fragment">
+			uniform float time;
+			uniform vec2 resolution;
+			varying vec2 vUv;
+			void main( void ) {
+				vec2 position = -1.0 + 2.0 * vUv;
+				float color_red = abs( sin( position.x * position.y + time / 5.0 ) );
+				float color_green = abs( sin( position.x * position.y + time / 4.0 ) );
+				float color_blue = abs( sin( position.x * position.y + time / 3.0 ) );
+				gl_FragColor = vec4( color_red, color_green, color_blue, 1.0 );
+			}
+</script>
+
+<script id="vertexShader" type="x-shader/x-vertex">
+			varying vec2 vUv;
+			void main()
+			{
+				vUv = uv;
+				vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+				gl_Position = projectionMatrix * mvPosition;
+			}
+</script>
